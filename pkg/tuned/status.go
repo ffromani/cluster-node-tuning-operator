@@ -118,6 +118,10 @@ func computeStatusConditions(status Bits, stderr string, conditions []tunedv1.Pr
 		tunedDegradedCondition.Status = corev1.ConditionTrue // treat overrides as regular errors; users should use "reapply_sysctl: true" or remove conflicting sysctls
 		tunedDegradedCondition.Reason = "TunedSysctlOverride"
 		tunedDegradedCondition.Message = "TuneD daemon issued one or more sysctl override message(s) during profile application. Use reapply_sysctl=true or remove conflicting sysctl " + stderr
+	} else if (status & scDeferred) != 0 {
+		tunedDegradedCondition.Status = corev1.ConditionTrue
+		tunedDegradedCondition.Reason = "TunedDeferredUpdate"
+		tunedDegradedCondition.Message = "Profile will be applied at the next daemon restart"
 	} else if (status & scWarn) != 0 {
 		tunedDegradedCondition.Status = corev1.ConditionFalse // consider warnings from TuneD as non-fatal
 		tunedDegradedCondition.Reason = "TunedWarning"
