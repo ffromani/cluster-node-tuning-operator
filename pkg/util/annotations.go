@@ -12,17 +12,17 @@ func HasDeferredUpdateAnnotation(anns map[string]string) bool {
 	return ok
 }
 
-func AddTunedDeferredUpdateAnnotation(tuned *tunedv1.Tuned) {
-	if tuned.Annotations == nil {
-		tuned.Annotations = make(map[string]string)
+func AddTunedDeferredUpdateAnnotation(prof *tunedv1.Profile) {
+	if prof.Annotations == nil {
+		prof.Annotations = make(map[string]string)
 	}
-	tuned.Annotations[tunedv1.TunedDeferredUpdate] = ""
+	prof.Annotations[tunedv1.TunedDeferredUpdate] = ""
 }
 
-func DeleteTunedDeferredUpdateAnnotation(tuned *tunedv1.Tuned) {
-	if tuned.Annotations == nil {
+func DeleteTunedDeferredUpdateAnnotation(prof *tunedv1.Profile) {
+	if prof.Annotations == nil {
 		// nothing to do
 		return
 	}
-	delete(tuned.Annotations, tunedv1.TunedDeferredUpdate)
+	delete(prof.Annotations, tunedv1.TunedDeferredUpdate)
 }
